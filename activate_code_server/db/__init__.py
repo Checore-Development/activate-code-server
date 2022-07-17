@@ -6,3 +6,15 @@ class database():
         
         if self.database_engine == 'sqlite':
             self.database = backends.sqlite(*args, **kwargs)
+            
+        elif self.database_engine == 'mysql':
+            self.database = backends.mysql(*args, **kwargs)
+            
+        elif self.database_engine == 'postgresql':
+            self.database = backends.postgresql(*args, **kwargs)
+            
+        elif self.database_engine == 'mongodb':
+            self.database = backends.mongodb(*args, **kwargs)
+            
+        else:
+            pass
