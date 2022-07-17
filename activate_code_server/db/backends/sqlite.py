@@ -2,8 +2,7 @@ import sqlite3
 
 sql_create_table = '''\
     CREATE TABLE IF NOT EXISTS "%s" (
-        ID INTEGER PRIMARY KEY AUTOINCREMENT,
-        TOKEN TEXT NOT NULL,
+        TOKEN TEXT NO NULL PRIMARY KEY,
         USAGE_COUNT INTEGER NOT NULL,
         LIMIT_COUNT INTEGER NOT NULL,
         CREATE_DATE INTEGER NOT NULL,
@@ -15,6 +14,10 @@ sql_insert = '''\
     INSERT INTO "%s" 
         (TOKEN, USAGE_COUNT, LIMIT_COUNT, CREATE_DATE, EXPIRATION_DATE)
         VALUES (?, ?, ?, ?, ?)
+'''
+
+sql_select = '''\
+    SLECT * FROM "%s" WHERE TOKEN = ?
 '''
 
 class sqlite():
@@ -40,6 +43,15 @@ class sqlite():
         expiration_date = kwargs.get('expiration_date')
         
         cursor = self.db.cursor()
-        cursor.execute(sql_insert % self.database_name, (token, 0, limit, create_date, expiration_date))
+        cursor.execute(sql_insert % self.database_name, (token, 0, limit, create_date, expiration_date,))
         self.db.commit()
         cursor.close()
+        
+    def select(self, *args, **kwargs):
+        token = kwargs.get('token')
+        
+        cursor = self.db.cursor()
+        cursor.execute(sql_select % self.database_name, (token,))
+        data = cursor.fetchall()
+        cursor.close()
+        return data
