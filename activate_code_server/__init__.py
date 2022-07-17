@@ -7,6 +7,7 @@ Activate code system server
 """
 
 __title__ = 'activate_code_server'
+__maintainer__ = 'checore development'
 __author__ = 'checore development owner'
 __license__ = 'MIT'
 __copyright__ = 'Copyright 2022-present checore development owner'
