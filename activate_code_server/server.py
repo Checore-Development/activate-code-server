@@ -8,7 +8,7 @@ class app_server:
         self.host = kwargs.get('host', 'localhost') # hostname or IP address
         self.port = kwargs.get('port', 8000) # hostport or port number
         self.database_engine = kwargs.get('database_engine', 'sqlite') # database engine (sqlite, mysql, postgresql, mongodb)
-        self.database_filename = kwargs.get('database_filename', 'database') # database filename 
+        self.database_filename = kwargs.get('database_filename', 'database') # database filename (only for sqlite)
         self.database_host = kwargs.get('database_host', '127.0.0.1') # database host (localhost, 127.0.0.1)
         self.database_port = kwargs.get('database_port') # database port (3306, 5432, 27017)
         self.database_name = kwargs.get('database_name', 'activate_code_server') # database name
