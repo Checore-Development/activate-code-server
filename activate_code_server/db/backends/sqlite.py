@@ -1,13 +1,14 @@
 import sqlite3
 
 sql_create_table = '''\
-CREATE TABLE IF NOT EXISTS %s(
+CREATE TABLE IF NOT EXISTS "%s"(
     ID INTEGER PRIMARY KEY AUTOINCREMENT,
     TOKEN TEXT NOT NULL,
     USAGE_COUNT INTEGER,
     LIMIT_COUNT INTEGER NOT NULL,
     CREATE_DATE INTEGER NOT NULL,
-    EXPIRATION_DATE INTEGER NOT NULL,
+    EXPIRATION_DATE INTEGER NOT NULL
+    )
 '''
 
 class sqlite():
@@ -23,5 +24,6 @@ class sqlite():
         
     def setup_table(self):
         cursor = self.db.cursor()
-        cursor.execute(sql_create_table, (self.database_name))
+        cursor.execute(sql_create_table % self.database_name)
+        cursor.close()
         
