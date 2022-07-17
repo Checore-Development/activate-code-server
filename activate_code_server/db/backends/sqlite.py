@@ -11,13 +11,20 @@ sql_create_table = '''\
 '''
 
 sql_insert = '''\
-    INSERT INTO "%s" 
-        (TOKEN, USAGE_COUNT, LIMIT_COUNT, CREATE_DATE, EXPIRATION_DATE)
-        VALUES (?, ?, ?, ?, ?)
+    INSERT INTO "%s" (TOKEN, USAGE_COUNT, LIMIT_COUNT, CREATE_DATE, EXPIRATION_DATE)
+    VALUES (?, ?, ?, ?, ?)
 '''
 
 sql_select = '''\
-    SLECT * FROM "%s" WHERE TOKEN = ?
+    SELECT * 
+    FROM "%s" 
+    WHERE TOKEN = ?
+'''
+
+sql_update = '''\
+    UPDATE "%s" 
+    SET USAGE_COUNT = ?, LIMIT_COUNT = ?, CREATE_DATE = ?, EXPIRATION_DATE = ?
+    WHERE TOKEN = ?
 '''
 
 class sqlite():
@@ -38,12 +45,13 @@ class sqlite():
     
     def insert(self, *args, **kwargs):
         token = kwargs.get('token')
+        usage = kwargs.get('usage_count', 0)
         limit = kwargs.get('limit', 1)
         create_date = kwargs.get('create_date')
         expiration_date = kwargs.get('expiration_date')
         
         cursor = self.db.cursor()
-        cursor.execute(sql_insert % self.database_name, (token, 0, limit, create_date, expiration_date,))
+        cursor.execute(sql_insert % self.database_name, (token, usage, limit, create_date, expiration_date,))
         self.db.commit()
         cursor.close()
         
@@ -54,4 +62,18 @@ class sqlite():
         cursor.execute(sql_select % self.database_name, (token,))
         data = cursor.fetchall()
         cursor.close()
-        return data
+        return data[0]
+    
+    def update(self, *args, **kwargs):
+        token = kwargs.get('token')
+        detail = self.select(token=token)
+        usage = kwargs.get('usage_count', detail['usage_count'] + 1)
+        limit = kwargs.get('limit', detail['limit_count'])
+        create_date = kwargs.get('create_date', detail['create_date'])
+        expiration_date = kwargs.get('expiration_date', detail['expiration_date'])
+        
+        cursor = self.db.cursor()
+        cursor.execute(sql_update % self.database_name, (usage, limit, create_date, expiration_date, token))
+        self.db.commit()
+        cursor.close()
+        
