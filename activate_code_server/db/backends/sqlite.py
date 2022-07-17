@@ -27,6 +27,11 @@ sql_update = '''\
     WHERE TOKEN = ?
 '''
 
+sql_delete = '''\
+    DELETE FROM "%s"
+    WHERE TOKEN = ?
+'''
+
 class sqlite():
     def __init__(self, *args, **kwargs):
         self.database_filename = kwargs.get('database_filename')
@@ -74,6 +79,14 @@ class sqlite():
         
         cursor = self.db.cursor()
         cursor.execute(sql_update % self.database_name, (usage, limit, create_date, expiration_date, token))
+        self.db.commit()
+        cursor.close()
+    
+    def delete(self, *args, **kwargs):
+        token = kwargs.get('token')
+        
+        cursor = self.db.cursor()
+        cursor.execute(sql_delete % self.database_name, (token,))
         self.db.commit()
         cursor.close()
         
