@@ -4,7 +4,7 @@ class database():
     def __init__(self, *args, **kwargs):
         self.database_engine = kwargs.get('database_engine')
         
-        if self.database_engine == 'sqlite':
+        if self.database_engine == 'sqlite3':
             self.database = backends.sqlite3(*args, **kwargs)
             
         elif self.database_engine == 'mysql':
