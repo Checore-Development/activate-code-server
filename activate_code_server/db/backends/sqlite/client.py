@@ -1,5 +1,7 @@
 import sqlite3
 
+__all__ = ['sqlite']
+
 sql_create_table = '''\
     CREATE TABLE IF NOT EXISTS "%s" (
         ID INTEGER PRIMARY KEY AUTOINCREMENT,
