@@ -5,7 +5,7 @@ class database():
         self.database_engine = kwargs.get('database_engine')
         
         if self.database_engine == 'sqlite':
-            self.database = backends.sqlite(*args, **kwargs)
+            self.database = backends.sqlite3(*args, **kwargs)
             
         elif self.database_engine == 'mysql':
             self.database = backends.mysql(*args, **kwargs)
