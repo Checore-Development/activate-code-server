@@ -2,11 +2,13 @@ import sqlite3
 
 sql_create_table = '''\
     CREATE TABLE IF NOT EXISTS "%s" (
-        TOKEN TEXT NO NULL PRIMARY KEY,
+        ID INTEGER PRIMARY KEY AUTOINCREMENT,
+        TOKEN TEXT NOT NULL,
         USAGE_COUNT INTEGER NOT NULL,
         LIMIT_COUNT INTEGER NOT NULL,
         CREATE_DATE INTEGER NOT NULL,
-        EXPIRATION_DATE INTEGER NOT NULL
+        EXPIRATION_DATE INTEGER NOT NULL,
+        ENCRYPTED TEXT NOT NULL
     )
 '''
 
@@ -47,7 +49,7 @@ class sqlite():
         cursor = self.db.cursor()
         cursor.execute(sql_create_table % self.database_name)
         cursor.close()
-    
+
     def insert(self, *args, **kwargs):
         token = kwargs.get('token')
         usage = kwargs.get('usage_count', 0)
