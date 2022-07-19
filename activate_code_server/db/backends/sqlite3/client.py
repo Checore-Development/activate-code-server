@@ -1,9 +1,20 @@
 import sqlite3 as _sqlite3
 
 from .features import *
+from .schema import schema
 from .operations import operations
 
-class sqlite3(operations):
+table = [
+    ["ID", "INTEGER", "PRIMARY KEY"],
+    ["TOKEN", "TEXT", "NOT NULL"],
+    ["USAGE_COUNT", "INTEGER", "NOT NULL"],
+    ["LIMIT_COUNT", "INTEGER", "NOT NULL"],
+    ["CREATE_DATE", "INTEGER", "NOT NULL"],
+    ["EXPIRATION_DATE", "INTEGER", "NOT NULL"],
+    ["ENCRYPTED", "TEXT", "NOT NULL"]
+]
+
+class sqlite3(operations, schema):
     def __init__(self, *args, **kwargs):
         self.database_filename = kwargs.get('database_filename')
         self.database_name = kwargs.get('database_name')
@@ -19,3 +30,7 @@ class sqlite3(operations):
         cursor = self.db.cursor()
         cursor.execute(sql_create_table % self.database_name)
         cursor.close()
+        
+    def setup_columns(self):
+        cursor = self.db.cursor()
+        cursor.execute(sql_create_columns % self.database_name)
