@@ -19,9 +19,10 @@ class sqlite3(operations, schema):
         self.database_filename = kwargs.get('database_filename')
         self.database_name = kwargs.get('database_name')
         self.db = None
+        self.table = table
         self.setup_db()
         self.setup_table()
-        super().__init__(db=self.db, *args, **kwargs)
+        super().__init__(db=self.db, table=table, *args, **kwargs)
         
     def setup_db(self):
         self.db = _sqlite3.connect(f'{self.database_filename}.db')
