@@ -6,6 +6,7 @@ class operations(object):
         self.database_name = kwargs.get('database_name')
 
     def insert(self, *args, **kwargs):
+        _id = kwargs.get('id')
         token = kwargs.get('token')
         usage = kwargs.get('usage_count', 0)
         limit = kwargs.get('limit', 1)
@@ -13,7 +14,7 @@ class operations(object):
         expiration_date = kwargs.get('expiration_date')
         
         cursor = self.db.cursor()
-        cursor.execute(sql_insert % self.database_name, (token, usage, limit, create_date, expiration_date,))
+        cursor.execute(sql_insert % (self.database_name, _id, token, usage, limit, create_date, expiration_date,))
         self.db.commit()
         cursor.close()
         
