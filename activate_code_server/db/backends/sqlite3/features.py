@@ -10,6 +10,10 @@ sql_create_table = '''\
     )
 '''
 
+sql_table_description = '''\
+    PRAGMA table_info(%s)
+'''
+
 sql_insert = '''\
     INSERT INTO "%s" (TOKEN, USAGE_COUNT, LIMIT_COUNT, CREATE_DATE, EXPIRATION_DATE)
     VALUES (?, ?, ?, ?, ?)
