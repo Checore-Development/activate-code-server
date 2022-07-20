@@ -1,3 +1,5 @@
+import time
+
 from .features import *
 
 class operations(object):
@@ -10,8 +12,9 @@ class operations(object):
         token = kwargs.get('token')
         usage = kwargs.get('usage_count', 0)
         limit = kwargs.get('limit', 1)
-        create_date = kwargs.get('create_date')
-        expiration_date = kwargs.get('expiration_date')
+        create_date = kwargs.get('create_date', int(time.time()))
+        expiration_date = kwargs.get('expiration_date', 2592000)
+        encrypted = kwargs.get('encrypted', 'False')
         
         cursor = self.db.cursor()
         cursor.execute(sql_insert % (self.database_name, _id, token, usage, limit, create_date, expiration_date,))
