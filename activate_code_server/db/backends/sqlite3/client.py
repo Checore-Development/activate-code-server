@@ -22,6 +22,7 @@ class sqlite3(operations, schema):
         self.table = table
         self.setup_db()
         self.setup_table()
+        self.setup_columns()
         super().__init__(db=self.db, table=table, *args, **kwargs)
         
     def setup_db(self):
@@ -29,9 +30,35 @@ class sqlite3(operations, schema):
         
     def setup_table(self):
         cursor = self.db.cursor()
-        cursor.execute(sql_create_table % self.database_name)
+        cursor.execute(sql_create_table % {
+            'table': self.database_name,
+            'columns': self.get_columns
+            }
+        )
         cursor.close()
         
     def setup_columns(self):
         cursor = self.db.cursor()
-        cursor.execute(sql_create_columns % self.database_name)
+        cursor.execute(sql_table_description % {
+            'table': self.database_name
+            }
+        )
+        table_description = cursor.fetchall()
+        table_description_name = [x[1] for x in table_description]
+        
+        for column in self.get_columns_name:
+            if column not in table_description_name:
+                column_info = self.get_column_info(column)
+                
+                cursor.execute(sql_alter_table % {
+                    'table': self.database_name,
+                    'column': column_info[0],
+                    'type': column_info[1],
+                    'null': column_info[2]
+                    }
+                )
+                self.db.commit()
+            else:
+                pass
+            
+        cursor.close()
