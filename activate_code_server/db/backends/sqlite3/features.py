@@ -1,17 +1,13 @@
 sql_create_table = '''\
-    CREATE TABLE IF NOT EXISTS "%s" (
-        ID INTEGER PRIMARY KEY AUTOINCREMENT,
-        TOKEN TEXT NOT NULL,
-        USAGE_COUNT INTEGER NOT NULL,
-        LIMIT_COUNT INTEGER NOT NULL,
-        CREATE_DATE INTEGER NOT NULL,
-        EXPIRATION_DATE INTEGER NOT NULL,
-        ENCRYPTED TEXT NOT NULL
-    )
+    CREATE TABLE IF NOT EXISTS %(table)s (%(columns)s);
 '''
 
 sql_table_description = '''\
-    PRAGMA table_info(%s)
+    PRAGMA TABLE_INFO(%(table)s);
+'''
+
+sql_alter_table = '''\
+    ALTER TABLE %(table)s ADD COLUMN %(column)s %(type)s %(null)s;
 '''
 
 sql_insert = '''\
