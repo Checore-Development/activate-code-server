@@ -35,4 +35,5 @@ class schema(object):
         cursor = self.db.cursor()
         cursor.execute(sql_table_description % self.database_name)
         data = cursor.fetchall()
+        
         return data
