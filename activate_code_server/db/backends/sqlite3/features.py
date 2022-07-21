@@ -15,9 +15,7 @@ sql_insert = '''\
 '''
 
 sql_select = '''\
-    SELECT * 
-    FROM "%s" 
-    WHERE TOKEN = ?
+    SELECT * FROM %(table)s WHERE %(variable)s = ?
 '''
 
 sql_update = '''\

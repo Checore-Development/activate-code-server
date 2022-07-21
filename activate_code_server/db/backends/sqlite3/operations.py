@@ -28,14 +28,29 @@ class operations(object):
         self.db.commit()
         cursor.close()
         
+        return parameter
+        
     def select(self, *args, **kwargs):
-        token = kwargs.get('token')
+        _id = kwargs.get('id', None)
+        token = kwargs.get('token', None)
+        
+        if _id is not None:
+            variable = 'ID'
+            parameter = (_id,)
+        else:
+            variable = 'TOKEN'
+            parameter = (token,)
         
         cursor = self.db.cursor()
-        cursor.execute(sql_select % self.database_name, (token,))
-        data = cursor.fetchall()
+        cursor.execute(sql_select % {
+            'table': self.database_name,
+            'variable': variable
+            }, parameter
+        )
+        data = cursor.fetchone()
         cursor.close()
-        return data[0]
+        
+        return data
     
     def update(self, *args, **kwargs):
         token = kwargs.get('token')
