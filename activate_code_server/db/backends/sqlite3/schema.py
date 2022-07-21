@@ -9,11 +9,11 @@ class schema(object):
     def get_columns(self):
         columns = ""
         
-        for info in self.table:
-            if info == self.table[-1]:
-                columns += " ".join(info)
+        for table in self.tables:
+            if table == self.tables[-1]:
+                columns += " ".join(table)
             else:
-                columns += " ".join(info) + ","
+                columns += " ".join(table) + ","
                 
         return columns
     
@@ -21,15 +21,15 @@ class schema(object):
     def get_columns_name(self):
         columns = []
         
-        for info in self.table:
-            columns.append(info[0])
+        for table in self.tables:
+            columns.append(table[0])
             
         return columns
     
     def get_column_info(self, column):
-        for info in self.table:
-            if info[0] == column:
-                return info
+        for table in self.tables:
+            if table[0] == column:
+                return table
     
     def get_table_description(self):
         cursor = self.db.cursor()
