@@ -11,8 +11,7 @@ sql_alter_table = '''\
 '''
 
 sql_insert = '''\
-    INSERT INTO "%s" (TOKEN, USAGE_COUNT, LIMIT_COUNT, CREATE_DATE, EXPIRATION_DATE)
-    VALUES (?, ?, ?, ?, ?)
+    INSERT INTO %(table)s VALUES (%(placeholder)s)
 '''
 
 sql_select = '''\

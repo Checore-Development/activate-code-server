@@ -16,8 +16,15 @@ class operations(object):
         expiration_date = kwargs.get('expiration_date', 2592000)
         encrypted = kwargs.get('encrypted', 'False')
         
+        parameter = (_id, token, usage, limit, create_date, expiration_date, encrypted)
+        placeholder = ", ".join(["?"] * len(parameter))
+        
         cursor = self.db.cursor()
-        cursor.execute(sql_insert % (self.database_name, _id, token, usage, limit, create_date, expiration_date,))
+        cursor.execute(sql_insert % {
+            'table': self.database_name,
+            'placeholder': placeholder
+            }, parameter
+        )
         self.db.commit()
         cursor.close()
         
