@@ -14,6 +14,7 @@ class app_server:
         self.database_name = kwargs.get('database_name', 'activate_code_server') # database name
         self.database_user = kwargs.get('database_user', 'root') # database user (root)
         self.database_password = kwargs.get('database_password', '12345678') # database password
+        self.encrypt = kwargs.get('encrypt', 'False') # encryption method 
         self.app = None # flask app
         self.server = None # flask server
         self.database = None # database
@@ -24,8 +25,9 @@ class app_server:
         self.app = Flask(__name__)
     
     def setup_blueprint(self, blueprint):
-        self.app.register_blueprint(blueprint)
-        
+        applications = blueprint(server=self)
+        self.app.register_blueprint(applications.app)
+
     def setup_server(self):
         self.server = WSGIServer(
             (self.host, self.port),
