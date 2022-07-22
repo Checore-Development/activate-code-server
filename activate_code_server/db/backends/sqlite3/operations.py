@@ -40,7 +40,7 @@ class operations(object):
         else:
             variable = 'TOKEN'
             parameter = (token,)
-        
+            
         cursor = self.db.cursor()
         cursor.execute(sql_select % {
             'table': self.database_name,
@@ -53,15 +53,34 @@ class operations(object):
         return data
     
     def update(self, *args, **kwargs):
-        token = kwargs.get('token')
-        detail = self.select(token=token)
-        usage = kwargs.get('usage_count', detail['usage_count'] + 1)
-        limit = kwargs.get('limit', detail['limit_count'])
-        create_date = kwargs.get('create_date', detail['create_date'])
-        expiration_date = kwargs.get('expiration_date', detail['expiration_date'])
+        _id = kwargs.get('id', None)
+        token = kwargs.get('token', None)
         
+        if _id is not None:
+            detail = self.select(id=_id)
+            keyword = 'ID'
+            parameter_keyword = (_id,)
+        else:
+            detail = self.select(token=token)
+            keyword = 'TOKEN'
+            parameter_keyword = (token,)
+            
+        usage = kwargs.get('usage_count', detail[2] + 1)
+        limit = kwargs.get('limit', detail[3])
+        create_date = kwargs.get('create_date', detail[4])
+        expiration_date = kwargs.get('expiration_date', detail[5])
+        encrypted = kwargs.get('encrypted', detail[6])
+        
+        parameter = (usage, limit, create_date, expiration_date, encrypted) + (parameter_keyword)
+        variables = ", ".join(['%s=?' % k for k in self.get_columns_name[2:]])
+    
         cursor = self.db.cursor()
-        cursor.execute(sql_update % self.database_name, (usage, limit, create_date, expiration_date, token))
+        cursor.execute(sql_update % {
+            'table' :self.database_name,
+            'variables' : variables,
+            'keyword' : keyword
+            }, parameter
+        )
         self.db.commit()
         cursor.close()
     

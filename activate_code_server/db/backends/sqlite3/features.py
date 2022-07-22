@@ -19,9 +19,7 @@ sql_select = '''\
 '''
 
 sql_update = '''\
-    UPDATE "%s" 
-    SET USAGE_COUNT = ?, LIMIT_COUNT = ?, CREATE_DATE = ?, EXPIRATION_DATE = ?
-    WHERE TOKEN = ?
+    UPDATE %(table)s SET %(variables)s WHERE %(keyword)s = ?
 '''
 
 sql_delete = '''\
