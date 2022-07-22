@@ -85,9 +85,21 @@ class operations(object):
         cursor.close()
     
     def delete(self, *args, **kwargs):
-        token = kwargs.get('token')
+        _id = kwargs.get('id', None)
+        token = kwargs.get('token', None)
+        
+        if _id is not None:
+            keyword = 'ID'
+            parameter_keyword = (_id,)
+        else:
+            keyword = 'TOKEN'
+            parameter_keyword = (token,)
         
         cursor = self.db.cursor()
-        cursor.execute(sql_delete % self.database_name, (token,))
+        cursor.execute(sql_delete % {
+            'table': self.database_name,
+            'keyword': keyword
+            }, parameter_keyword
+        )
         self.db.commit()
         cursor.close()

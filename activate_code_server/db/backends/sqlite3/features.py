@@ -19,10 +19,9 @@ sql_select = '''\
 '''
 
 sql_update = '''\
-    UPDATE %(table)s SET %(variables)s WHERE %(keyword)s = ?
+    UPDATE %(table)s SET %(variables)s WHERE %(keyword)s = ?    
 '''
 
 sql_delete = '''\
-    DELETE FROM "%s"
-    WHERE TOKEN = ?
+    DELETE FROM %(table)s WHERE %(keyword)s = ?
 '''
