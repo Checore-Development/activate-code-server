@@ -4,8 +4,10 @@ from .features import *
 from .schema import schema
 from .operations import operations
 
+primary_key_location = [0, 1]
+
 tables = [
-    ["ID", "INTEGER", "PRIMARY KEY"],
+    ["ID", "INTEGER", "NOT NULL"],
     ["TOKEN", "TEXT", "NOT NULL"],
     ["USAGE_COUNT", "INTEGER", "NOT NULL"],
     ["LIMIT_COUNT", "INTEGER", "NOT NULL"],
@@ -20,6 +22,7 @@ class sqlite3(operations, schema):
         self.database_name = kwargs.get('database_name')
         self.db = None
         self.tables = tables
+        self.primary_key_location = primary_key_location
         self.setup_db()
         self.setup_table()
         self.setup_columns()
@@ -32,7 +35,7 @@ class sqlite3(operations, schema):
         cursor = self.db.cursor()
         cursor.execute(sql_create_table % {
             'table': self.database_name,
-            'columns': self.get_columns
+            'columns': self.get_columns + self.create_primary_key(primary_key_location=self.primary_key_location)
             }
         )
         cursor.close()

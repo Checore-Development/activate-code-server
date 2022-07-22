@@ -5,6 +5,15 @@ class schema(object):
         self.db = kwargs.get('db')
         self.database_name = kwargs.get('database_name')
     
+    def create_primary_key(self, primary_key_location):
+        primary_key = []
+        columns = self.get_columns_name
+        
+        for location in primary_key_location:
+            primary_key.append(columns[location])
+            
+        return (', PRIMARY KEY (%s)' % ', '.join(primary_key))
+            
     @property
     def get_columns(self):
         columns = ""
