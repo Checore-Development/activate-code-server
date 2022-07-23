@@ -2,6 +2,7 @@ from flask import Flask
 from gevent.pywsgi import WSGIServer
 
 from .db import database
+from .status import status_code
 
 class app_server:
     def __init__(self, *args, **kwargs):
@@ -20,7 +21,8 @@ class app_server:
         self.database = None # database
         self.setup_app() # setup flask app
         self.setup_database() # setup database
-        
+        self.setup_status() # setup status_code application
+
     def setup_app(self):
         self.app = Flask(__name__)
     
@@ -45,6 +47,9 @@ class app_server:
         )
         self.database = db.database
     
+    def setup_status(self):
+        self.status = status_code()
+        
     def run(self):
         self.setup_server()
         self.server.serve_forever()
