@@ -5,6 +5,9 @@ class Application:
         self.server = kwargs.get('server')
         self.database = self.server.database
         self.app = None
+        self.urls = [
+            ['/', self.generate_code, ['GET']]
+        ]
         self.status = None
         self.setup_app()
         self.setup_urls()
@@ -17,11 +20,7 @@ class Application:
         self.status = self.server.status
         
     def setup_urls(self):
-        urls = [
-            ['/', self.generate_code, ['GET']]
-        ]
-        
-        for url in urls:
+        for url in self.urls:
             self.app.add_url_rule(rule=url[0], view_func=url[1], methods=url[2])
             
     def generate_code(self):
