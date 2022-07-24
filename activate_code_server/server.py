@@ -4,7 +4,7 @@ from gevent.pywsgi import WSGIServer
 from .db import database
 from .status import status_code
 
-class app_server:
+class app_server(object):
     def __init__(self, *args, **kwargs):
         self.host = kwargs.get('host', 'localhost') # hostname or IP address
         self.port = kwargs.get('port', 8000) # hostport or port number
