@@ -1,7 +1,7 @@
 from flask import Flask
 from gevent.pywsgi import WSGIServer
 
-from .db import database
+from .database import database
 from .status import status_code
 from .random import random_code
 
@@ -27,6 +27,7 @@ class app_server(object):
         self.setup_database() # setup database
         self.setup_status() # setup status_code application
         self.setup_random() # setup random_code application
+        self.random.token() # generate random code
 
     def setup_app(self):
         self.app = Flask(__name__)
