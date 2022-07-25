@@ -14,7 +14,7 @@ class operations(object):
         limit = kwargs.get('limit', 1)
         create_date = kwargs.get('create_date', int(time.time()))
         expired_date = kwargs.get('expired_date', 2592000)
-        encrypted = kwargs.get('encrypted', 'False')
+        encrypted = kwargs.get('encrypted', False)
         
         parameter = (_id, token, usage, limit, create_date, expired_date, encrypted)
         placeholder = ", ".join(["?"] * len(parameter))
