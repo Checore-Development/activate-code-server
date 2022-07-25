@@ -3,6 +3,7 @@ from gevent.pywsgi import WSGIServer
 
 from .db import database
 from .status import status_code
+from .random import random_code
 
 class app_server(object):
     def __init__(self, *args, **kwargs):
@@ -20,9 +21,12 @@ class app_server(object):
         self.app = None # flask app
         self.server = None # flask server
         self.database = None # database
+        self.status = None # status code
+        self.random = None # random
         self.setup_app() # setup flask app
         self.setup_database() # setup database
         self.setup_status() # setup status_code application
+        self.setup_random() # setup random_code application
 
     def setup_app(self):
         self.app = Flask(__name__)
@@ -50,7 +54,12 @@ class app_server(object):
     
     def setup_status(self):
         self.status = status_code()
-        
+    
+    def setup_random(self):
+        self.random = random_code(
+            code_format=self.code_format
+        )
+    
     def run(self):
         self.setup_server()
         self.server.serve_forever()
