@@ -12,7 +12,7 @@ tables = [
     ["USAGE_COUNT", "INTEGER", "NOT NULL"],
     ["LIMIT_COUNT", "INTEGER", "NOT NULL"],
     ["CREATE_DATE", "INTEGER", "NOT NULL"],
-    ["EXPIRATION_DATE", "INTEGER", "NOT NULL"],
+    ["EXPIRED_DATE", "INTEGER", "NOT NULL"],
     ["ENCRYPTED", "TEXT", "NOT NULL"]
 ]
 

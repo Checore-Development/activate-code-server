@@ -13,10 +13,10 @@ class operations(object):
         usage = kwargs.get('usage_count', 0)
         limit = kwargs.get('limit', 1)
         create_date = kwargs.get('create_date', int(time.time()))
-        expiration_date = kwargs.get('expiration_date', 2592000)
+        expired_date = kwargs.get('expired_date', 2592000)
         encrypted = kwargs.get('encrypted', 'False')
         
-        parameter = (_id, token, usage, limit, create_date, expiration_date, encrypted)
+        parameter = (_id, token, usage, limit, create_date, expired_date, encrypted)
         placeholder = ", ".join(["?"] * len(parameter))
         
         cursor = self.db.cursor()
@@ -68,10 +68,10 @@ class operations(object):
         usage = kwargs.get('usage_count', detail[2] + 1)
         limit = kwargs.get('limit', detail[3])
         create_date = kwargs.get('create_date', detail[4])
-        expiration_date = kwargs.get('expiration_date', detail[5])
+        expired_date = kwargs.get('expired_date', detail[5])
         encrypted = kwargs.get('encrypted', detail[6])
         
-        parameter = (usage, limit, create_date, expiration_date, encrypted) + (parameter_keyword)
+        parameter = (usage, limit, create_date, expired_date, encrypted) + (parameter_keyword)
         variables = ", ".join(['%s=?' % k for k in self.get_columns_name[2:]])
     
         cursor = self.db.cursor()
