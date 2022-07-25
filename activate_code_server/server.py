@@ -17,7 +17,8 @@ class app_server(object):
         self.database_user = kwargs.get('database_user', 'root') # database user (root)
         self.database_password = kwargs.get('database_password', '12345678') # database password
         self.code_format = kwargs.get('code_format', 'xxxxx-xxxxx-xxxxx-xxxxx-xxxxx') # code format
-        self.encrypted = kwargs.get('encrypted', 'False') # encrypted method 
+        self.encrypted = kwargs.get('encrypted', False) # encrypted method
+        self.authorization = kwargs.get('authorization', False) # headers authorization
         self.app = None # flask app
         self.server = None # flask server
         self.database = None # database
