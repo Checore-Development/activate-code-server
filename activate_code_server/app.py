@@ -1,13 +1,12 @@
 from flask import Blueprint, request, jsonify
 
-class Application:
+class Application(object):
     def __init__(self, *args, **kwargs):
         self.server = kwargs.get('server')
         self.database = self.server.database
         self.status = self.server.status
         self.generate = self.server.generate
         self.app = None
-        self.status = None
         self.urls = [
             ['/', self.generate_code, ['GET']]
         ]
@@ -22,5 +21,4 @@ class Application:
             self.app.add_url_rule(rule=url[0], view_func=url[1], methods=url[2])
             
     def generate_code(self):
-        print(request.accept_languages)
         return self.generate.token()
