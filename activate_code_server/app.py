@@ -5,7 +5,7 @@ class Application:
         self.server = kwargs.get('server')
         self.database = self.server.database
         self.status = self.server.status
-        self.random = self.server.random
+        self.generate = self.server.generate
         self.app = None
         self.status = None
         self.urls = [
@@ -23,4 +23,4 @@ class Application:
             
     def generate_code(self):
         print(request.accept_languages)
-        return self.random.token()
+        return self.generate.token()
