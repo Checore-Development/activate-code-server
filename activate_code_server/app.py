@@ -1,11 +1,14 @@
-from flask import Blueprint, request, jsonify
+import json
+
+from flask import Blueprint, request
+
+from .function import decorators, function
 
 class Application(object):
     def __init__(self, *args, **kwargs):
         self.server = kwargs.get('server')
-        self.database = self.server.database
         self.status = self.server.status
-        self.generate = self.server.generate
+        self.function = function(server=self.server)
         self.app = None
         self.urls = [
             ['/', self.generate_code, ['GET']]
@@ -19,6 +22,16 @@ class Application(object):
     def setup_urls(self):
         for url in self.urls:
             self.app.add_url_rule(rule=url[0], view_func=url[1], methods=url[2])
-            
+    
+    @decorators.verify_request
     def generate_code(self):
-        return self.generate.token()
+        #data = json.loads(request.data)
+        data = request.form
+        print(request.json)
+
+        code = self.function.generate_code(
+            seed=data.get('seed'),
+            limit=data.get('limit'),
+            expired_date=data.get('expired_date'),
+        )
+        return code
