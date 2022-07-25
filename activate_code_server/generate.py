@@ -26,6 +26,7 @@ class generate_code(object):
         return random_code
     
     def token(self, seed=None):
+        seed = int(seed) if seed is not None else None
         token = ''
         random_code = self.generate(seed)
         
