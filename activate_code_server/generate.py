@@ -49,3 +49,9 @@ class generate_code(object):
                 token += code
                 
         return token
+    
+    @property
+    def id(self):
+        lists = [k for k in self.lists]
+        random_code = np.random.choice(lists, 8, replace=False)
+        return ''.join(random_code)
