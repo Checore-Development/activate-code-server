@@ -4,6 +4,7 @@ from gevent.pywsgi import WSGIServer
 from .database import database
 from .status import status_code
 from .generate import generate_code
+from .encrypt import encrypt
 
 class app_server(object):
     def __init__(self, *args, **kwargs):
@@ -17,17 +18,20 @@ class app_server(object):
         self.database_user = kwargs.get('database_user', 'root') # database user (root)
         self.database_password = kwargs.get('database_password', '12345678') # database password
         self.code_format = kwargs.get('code_format', 'xxxxx-xxxxx-xxxxx-xxxxx-xxxxx') # code format
-        self.encrypted = kwargs.get('encrypted', False) # encrypted method
+        self.encrypt_method = kwargs.get('encrypt_method', 'False') # encrypted method
+        self.encrypt_key = kwargs.get('encrypt_key', '12345678') # encrypt key
         self.authorization = kwargs.get('authorization', False) # headers authorization
         self.app = None # flask app
         self.server = None # flask server
         self.database = None # database
         self.status = None # status code
         self.generate = None # generate
+        self.encrypt = None # encrypt
         self.setup_app() # setup flask app
         self.setup_database() # setup database
         self.setup_status() # setup status_code application
         self.setup_generate() # setup generate_code application
+        self.setup_encrypt() # setup encrypt application
 
     def setup_app(self):
         self.app = Flask(__name__)
@@ -61,6 +65,12 @@ class app_server(object):
             code_format=self.code_format
         )
     
+    def setup_encrypt(self):
+        self.encrypt = encrypt(
+            encrypt_method=self.encrypt_method,
+            encrypt_key=self.encrypt_key
+        )
+        
     def run(self):
         self.setup_server()
         self.server.serve_forever()
