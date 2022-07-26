@@ -13,7 +13,7 @@ class status_code(object):
         return jsonify(data), status_code, {'ContentType':'application/json'}
 
     def HTTP_CUSTOM_201_CREATED(self, data):
-        self.response(message="Created", status_code=201, data=data)
+        return self.response(message="Created", status_code=201, data=data)
     
     @property
     def HTTP_100_CONTINUE(self):
