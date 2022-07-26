@@ -26,12 +26,5 @@ class Application(object):
     @decorators.verify_request
     def generate_code(self):
         #data = json.loads(request.data)
-        data = request.form
-        print(request.json)
-
-        code = self.function.generate_code(
-            seed=data.get('seed'),
-            limit=data.get('limit'),
-            expired_date=data.get('expired_date'),
-        )
+        code = self.function.generate_code(data=request.form)
         return code
