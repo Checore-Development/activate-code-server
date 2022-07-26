@@ -10,7 +10,7 @@ class status_code(object):
         if data is not None:
             content['data'] = data
             
-        return jsonify(data), status_code, {'ContentType':'application/json'}
+        return jsonify(content), status_code, {'ContentType':'application/json'}
 
     def HTTP_CUSTOM_201_CREATED(self, data):
         return self.response(message="Created", status_code=201, data=data)
