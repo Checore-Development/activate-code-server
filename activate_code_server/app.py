@@ -1,5 +1,3 @@
-import json
-
 from flask import Blueprint, request
 
 from .function import decorators, function
@@ -25,6 +23,5 @@ class Application(object):
     
     @decorators.verify_request
     def generate_code(self):
-        #data = json.loads(request.data)
         code = self.function.generate_code(data=request.form)
         return code
