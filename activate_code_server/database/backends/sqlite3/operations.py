@@ -50,7 +50,10 @@ class operations(object):
         data = cursor.fetchone()
         cursor.close()
         
-        return data
+        if len(data) == 0:
+            return False
+        else:
+            return data
     
     def update(self, *args, **kwargs):
         _id = kwargs.get('id', None)
