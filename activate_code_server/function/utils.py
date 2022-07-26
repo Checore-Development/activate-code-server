@@ -1,6 +1,9 @@
 def judgment_integer(value):
-    try:
-        int(value)
+    if value is None or isinstance(value, int):
         return True
-    except:
-        return False
+    else:
+        try:
+            int(value)
+            return True
+        except:
+            return False
