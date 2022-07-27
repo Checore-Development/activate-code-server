@@ -4,7 +4,7 @@ from .utils import *
 
 class function(object):
     def __init__(self, *args, **kwargs):
-        self.server = kwargs.get('server')
+        self.server = args[0]
         self.database = self.server.database
         self.status = self.server.status
         self.generate = self.server.generate

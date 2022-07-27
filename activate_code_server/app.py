@@ -4,9 +4,9 @@ from .function import decorators, function
 
 class Application(object):
     def __init__(self, *args, **kwargs):
-        self.server = kwargs.get('server')
+        self.server = args[0]
         self.status = self.server.status
-        self.function = function(server=self.server)
+        self.function = function(self.server)
         self.app = None
         self.urls = [
             ['/', self.generate_code, ['GET']]

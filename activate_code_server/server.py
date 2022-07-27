@@ -37,7 +37,7 @@ class app_server(object):
         self.app = Flask(__name__)
     
     def setup_blueprint(self, blueprint):
-        applications = blueprint(server=self)
+        applications = blueprint(self)
         self.app.register_blueprint(applications.app)
 
     def setup_server(self):
