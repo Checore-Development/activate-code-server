@@ -12,10 +12,11 @@ class function(object):
         self.encrypted = self.server.encrypt_method
         
     def generate_code(self, *args, **kwargs):
-        data = kwargs.get('data')
+        data = args[0]
         seed = data.get('seed')
         limit = data.get('limit', 1)
         expired_date = data.get('expired_date', 2592000)
+        encrypted = data.get('encrypted', 'False')
         
         if not judgment_integer(seed) or not judgment_integer(limit) or not judgment_integer(expired_date):
             return self.status.HTTP_400_BAD_REQUEST

@@ -23,5 +23,5 @@ class Application(object):
     
     @decorators.verify_request
     def generate_code(self):
-        code = self.function.generate_code(data=request.form)
+        code = self.function.generate_code(request.form)
         return code
