@@ -31,12 +31,21 @@ class generate_code(object):
         random_code = self.generate(seed)
         
         if seed is None:
-            reload_count = np.random.randint(1, 10000)
+            reload_count = np.random.randint(1, 100000)
             for _ in range(reload_count):
+                np.random.shuffle(random_code)
+        elif seed > 2**32 - 1:
+            np_seed = 2**32 - 1
+            random_seed = seed - np_seed
+            
+            random.seed(random_seed)
+            reload_count = random.randint(1, 100000)
+            for _ in range(reload_count):
+                np.random.seed(np_seed)
                 np.random.shuffle(random_code)
         else:
             np.random.seed(seed)
-            reload_count = np.random.randint(1, 10000)
+            reload_count = np.random.randint(1, 100000)
             for _ in range(reload_count):
                 np.random.seed(seed)
                 np.random.shuffle(random_code)
