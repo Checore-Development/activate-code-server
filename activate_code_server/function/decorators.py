@@ -15,4 +15,5 @@ def verify_request(func):
                 pass
                     
         return func(*args, **kwargs)
+    wrapper.__name__ = func.__name__
     return wrapper
