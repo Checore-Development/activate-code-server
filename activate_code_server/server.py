@@ -4,7 +4,7 @@ from gevent.pywsgi import WSGIServer
 from .database import database
 from .status import status_code
 from .generate import generate_code
-from .encrypt import encrypt
+from .encrypt import encrypt as _encrypt
 
 class app_server(object):
     def __init__(self, *args, **kwargs):
@@ -15,11 +15,11 @@ class app_server(object):
         self.database_host = kwargs.get('database_host', '127.0.0.1') # database host (localhost, 127.0.0.1)
         self.database_port = kwargs.get('database_port') # database port (3306, 5432, 27017)
         self.database_name = kwargs.get('database_name', 'activate_code_server') # database name
-        self.database_user = kwargs.get('database_user', 'root') # database user (root)
+        self.database_user = kwargs.get('database_user', 'root') # database user
         self.database_password = kwargs.get('database_password', '12345678') # database password
         self.code_format = kwargs.get('code_format', 'xxxxx-xxxxx-xxxxx-xxxxx-xxxxx') # code format
         self.encrypt_method = kwargs.get('encrypt_method', 'False') # encrypted method
-        self.encrypt_key = kwargs.get('encrypt_key', '12345678') # encrypt key
+        self.encrypt_key = kwargs.get('encrypt_key', 'zwyidPr31gv7w2H5ARIMe9gv8FYdpr7E95OiBhePJdXxdhfjcUEyywAd9SJlJSEZ7M9ZqoD7ds93Ms99nc2zA96324VrV5XwuPpk') # encrypt key
         self.authorization = kwargs.get('authorization', False) # headers authorization
         self.app = None # flask app
         self.server = None # flask server
@@ -66,10 +66,12 @@ class app_server(object):
         )
     
     def setup_encrypt(self):
-        self.encrypt = encrypt(
+        encrypt = _encrypt(
+            code_format=self.code_format,
             encrypt_method=self.encrypt_method,
             encrypt_key=self.encrypt_key
         )
+        self.encrypt = encrypt
         
     def run(self):
         self.setup_server()
