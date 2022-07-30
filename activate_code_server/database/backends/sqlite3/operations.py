@@ -33,18 +33,22 @@ class operations(object):
     def select(self, *args, **kwargs):
         _id = kwargs.get('id', None)
         token = kwargs.get('token', None)
+        encrypted = kwargs.get('encrypted')
         
         if _id is not None:
             variable = 'ID'
-            parameter = (_id,)
+            parameter = (_id, encrypted)
         else:
             variable = 'TOKEN'
-            parameter = (token,)
+            parameter = (token, encrypted)
             
+        encrypted_variable = 'ENCRYPTED'
+        
         cursor = self.db.cursor()
         cursor.execute(sql_select % {
             'table': self.database_name,
-            'variable': variable
+            'variable': variable,
+            'encrypted_variable': encrypted_variable
             }, parameter
         )
         data = cursor.fetchone()
