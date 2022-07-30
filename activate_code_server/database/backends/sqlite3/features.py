@@ -15,11 +15,11 @@ sql_insert = '''\
 '''
 
 sql_select = '''\
-    SELECT * FROM %(table)s WHERE %(variable)s = ?
+    SELECT * FROM %(table)s WHERE %(variable)s = ? AND %(encrypted_variable)s = ?
 '''
 
 sql_update = '''\
-    UPDATE %(table)s SET %(variables)s WHERE %(keyword)s = ?    
+    UPDATE %(table)s SET %(variables)s WHERE %(keyword)s = ?
 '''
 
 sql_delete = '''\
