@@ -8,15 +8,14 @@ def judgment_integer(value):
         except:
             return False
         
-def match_form(code_format, data):
-    if len(code_format) != len(data):
+def match_form(code_format, token):
+    if len(code_format) != len(token):
         return False
     else:
-        for code_word, data_word in zip(code_format, data):
+        for code_word, token_word in zip(code_format, token):
             if code_word == "x":
                 pass
             else:
-                if code_word != data_word:
+                if code_word != token_word:
                     return False
         return True
-    
