@@ -4,16 +4,21 @@ class status_code(object):
     def __init__(self):
         pass
     
-    def response(self, message="OK", status_code=200, data=None):
+    def response(self, message="OK", status_code=200, data=None, errors=None):
         content = {'message': message, 'status_code': status_code}
         
         if data is not None:
             content['data'] = data
+        if errors is not None:
+            content['errors'] = errors
             
         return jsonify(content), status_code, {'ContentType':'application/json'}
 
     def HTTP_CUSTOM_201_CREATED(self, data):
         return self.response(message="Created", status_code=201, data=data)
+    
+    def HTTP_CUSTOM_400_BAD_REQUEST(self, errors):
+        return self.response(message="Bad Request", status_code=400, errors=errors)
     
     @property
     def HTTP_100_CONTINUE(self):
