@@ -4,8 +4,6 @@ from .features import *
 from .schema import schema
 from .operations import operations
 
-primary_key_location = [0, 1]
-
 tables = [
     ["ID", "INTEGER", "NOT NULL"],
     ["TOKEN", "TEXT", "NOT NULL"],
@@ -22,13 +20,13 @@ class sqlite3(operations, schema):
         self.database_name = kwargs.get('database_name')
         self.db = None
         self.tables = tables
-        self.primary_key_location = primary_key_location
+        self.primary_key_location = [0, 1]
         self.setup_db()
         self.setup_table()
         self.setup_columns()
         super().__init__(db=self.db, table=self.tables, *args, **kwargs)
         
-    def setup_db(self):
+    def setup_db(self): 
         self.db = _sqlite3.connect(f'{self.database_filename}.db')
         
     def setup_table(self):
