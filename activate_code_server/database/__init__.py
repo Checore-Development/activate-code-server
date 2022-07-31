@@ -1,6 +1,6 @@
 from . import backends
 
-class database():
+class database:
     def __init__(self, *args, **kwargs):
         self.database_engine = kwargs.get('database_engine')
         
